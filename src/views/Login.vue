@@ -13,7 +13,7 @@
                     @
                   </span>
                 </div>
-                <input class="form-control" type="email" placeholder="Email" autocomplete="off" v-model="email">
+                <input class="form-control" type="email" placeholder="Email" autocomplete="off" v-model="userInfo.email">
               </div>
               <div class="input-group mb-4">
                 <div class="input-group-prepend">
@@ -21,7 +21,7 @@
                       <i class="icon-lock"></i>
                     </span>
                 </div>
-                <input class="form-control" type="password" placeholder="Password" autocomplete="off" v-model="password">
+                <input class="form-control" type="password" placeholder="Password" autocomplete="off" v-model="userInfo.password">
               </div>
               <div class="row">
                 <div class="col-6">
@@ -45,26 +45,42 @@
         </div>
       </div>
     </div>
+    <TheModal v-if="error" :message="error.message" :title="error.code" :type="error.type" @modalClose="closeModal"/>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase';
-import errors from '@/enums/errors';
+import errors from '../enums/errors';
+import TheModal from '../components/base/TheModal.vue';
 
 export default {
   name: 'Login',
 
+  components: {
+    TheModal,
+  },
+
   data() {
     return {
-      email: '',
-      password: '',
+      userInfo: {
+        email: '',
+        password: '',
+      },
+      error: null,
     };
   },
 
   methods: {
     loginClick() {
-      this.$store.dispatch('login', { email: this.email, password: this.password }).catch(error => console.log(error));
+      this.$store.dispatch('login', this.userInfo)
+        .catch((error) => {
+          this.error = error;
+          this.error.type = 'modal-danger';
+        });
+    },
+
+    closeModal() {
+      this.error = null;
     },
   },
 
