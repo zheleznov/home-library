@@ -4,7 +4,7 @@
       <div class="col-md-8">
         <div class="card-group">
           <div class="card p-4">
-            <div class="card-body">
+            <div class="card-body" v-if="!isForgetPassword">
               <h1>Login</h1>
               <p class="text-muted">Sign In to your account</p>
               <div class="input-group mb-3">
@@ -28,7 +28,27 @@
                   <button class="btn btn-primary px-4" type="button" @click="loginClick">Login</button>
                 </div>
                 <div class="col-6 text-right">
-                  <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                  <button class="btn btn-link px-0" type="button" @click="isForgetPassword = !isForgetPassword">Forgot password?</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body" v-else>
+              <h1>Forget password</h1>
+              <p class="text-muted">Fill email to reset password</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    @
+                  </span>
+                </div>
+                <input class="form-control" type="email" placeholder="Email" autocomplete="off" v-model="userInfo.email">
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn btn-primary px-4" type="button" @click="resetPassword">Reset</button>
+                </div>
+                <div class="col-6 text-right">
+                  <button class="btn btn-link px-0" type="button" @click="isForgetPassword = !isForgetPassword">Back to login</button>
                 </div>
               </div>
             </div>
@@ -50,6 +70,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import errors from '../enums/errors';
 import TheModal from '../components/base/TheModal.vue';
 
@@ -67,6 +89,7 @@ export default {
         password: '',
       },
       error: null,
+      isForgetPassword: false,
     };
   },
 
@@ -81,6 +104,18 @@ export default {
 
     closeModal() {
       this.error = null;
+    },
+
+    resetPassword() {
+      firebase.auth().sendPasswordResetEmail(this.userInfo.email).then(() => {
+        // Email sent.
+        this.error = error;
+        this.error.type = 'modal-success';
+      }).catch((error) => {
+        // An error happened.
+        this.error = error;
+        this.error.type = 'modal-danger';
+      });
     },
   },
 
