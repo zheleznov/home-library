@@ -1,16 +1,16 @@
 <template>
   <transition name="modal-fade">
     <div class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" :class="type ? type : ''" role="document">
+      <div class="modal-dialog" :class="modalData.type ? modalData.type : ''" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">{{title}}</h5>
+            <h5 class="modal-title">{{modalData.title}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true" @click="close">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p>{{message}}</p>
+            <p>{{modalData.message}}</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="close">Close</button>
@@ -27,16 +27,9 @@ export default {
   name: 'TheModal',
 
   props: {
-    title: {
+    modalData: {
       required: true,
-      type: String,
-    },
-    message: {
-      required: true,
-      type: String,
-    },
-    type: {
-      type: String,
+      type: Object,
     },
   },
 

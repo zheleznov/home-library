@@ -65,14 +65,13 @@
         </div>
       </div>
     </div>
-    <TheModal v-if="error" :message="error.message" :title="error.code" :type="error.type" @modalClose="closeModal"/>
+    <TheModal v-if="modalData" :modalData="modalData" @modalClose="closeModal"/>
   </div>
 </template>
 
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import errors from '../enums/errors';
 import TheModal from '../components/base/TheModal.vue';
 
 export default {
@@ -88,7 +87,7 @@ export default {
         email: '',
         password: '',
       },
-      error: null,
+      modalData: null,
       isForgetPassword: false,
     };
   },
@@ -97,24 +96,30 @@ export default {
     loginClick() {
       this.$store.dispatch('login', this.userInfo)
         .catch((error) => {
-          this.error = error;
-          this.error.type = 'modal-danger';
+          this.modalData = {};
+          this.modalData.title = error.code;
+          this.modalData.message = error.message;
+          this.modalData.type = 'modal-danger';
         });
     },
 
     closeModal() {
-      this.error = null;
+      this.modalData = null;
     },
 
     resetPassword() {
       firebase.auth().sendPasswordResetEmail(this.userInfo.email).then(() => {
         // Email sent.
-        this.error = error;
-        this.error.type = 'modal-success';
+        this.modalData = {};
+        this.modalData.title = 'Password reset';
+        this.modalData.message = 'Email to recover your password was sent';
+        this.modalData.type = 'modal-success';
       }).catch((error) => {
         // An error happened.
-        this.error = error;
-        this.error.type = 'modal-danger';
+        this.modalData = {};
+        this.modalData.title = error.code;
+        this.modalData.message = error.message;
+        this.modalData.type = 'modal-danger';
       });
     },
   },
