@@ -19,6 +19,9 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         firebase.auth()
           .signInWithEmailAndPassword(userInfo.email, userInfo.password)
+          .then((userData) => {
+            resolve(userData);
+          })
           .catch((error) => {
             reject(error);
           });
