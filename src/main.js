@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import vuelidate from 'vuelidate';
 
 import App from './App.vue';
 import router from './router';
@@ -17,6 +18,8 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
+Vue.use(vuelidate);
 
 new Vue({
   router,
