@@ -180,4 +180,8 @@ export default {
 .back-login {
   float: right;
 }
+
+button[disabled="disabled"] {
+  cursor: default;
+}
 </style>

@@ -180,4 +180,7 @@ export default {
 </script>
 
 <style scoped>
+  button[disabled="disabled"] {
+    cursor: default;
+  }
 </style>
