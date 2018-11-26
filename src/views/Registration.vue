@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="card mx-4">
           <div class="card-body p-4">
-            <router-link :to="{name: 'login'}" class="back-login">Back to Login</router-link>
+            <router-link :to="{name: 'login'}" class="back-login">Login</router-link>
             <h1>Register</h1>
             <p class="text-muted">Create your account</p>
             <div class="input-group mb-3">
