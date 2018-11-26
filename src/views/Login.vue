@@ -45,7 +45,7 @@
               </div>
             </div>
 
-            <!--FORGET PASSWWORD SECTION-->
+            <!--FORGET PASSWORD SECTION-->
             <div class="card-body forget-password-section" v-else>
               <h1>Forget password</h1>
               <p class="text-muted">Fill email to reset password</p>
@@ -55,14 +55,19 @@
                     @
                   </span>
                 </div>
-                <input class="form-control" type="email" placeholder="Email" autocomplete="off" v-model="userInfo.email">
+                <input class="form-control" :class="{'is-invalid': $v.userInfo.email.$error}"
+                       type="email" placeholder="Email" autocomplete="off" v-model="userInfo.email" @blur="$v.userInfo.email.$touch()">
+                <TheInputError v-if="$v.userInfo.email.$error">
+                  <p v-show="!$v.userInfo.email.required">This field is required</p>
+                  <p v-show="!$v.userInfo.email.email">Field should have email format</p>
+                </TheInputError>
               </div>
               <div class="row">
                 <div class="col-6">
-                  <button class="btn btn-primary px-4 reset-button" type="button" @click="resetPassword" :disabled="!userInfo.email">Reset</button>
+                  <button class="btn btn-primary px-4 reset-button" type="button" @click="resetPassword" :disabled="$v.userInfo.email.$invalid">Reset</button>
                 </div>
                 <div class="col-6 text-right">
-                  <button class="btn btn-link px-0" type="button" @click="isForgetPassword = !isForgetPassword">Back to login</button>
+                  <button class="btn btn-link px-0" type="button" @click="isForgetPassword = !isForgetPassword">Login</button>
                 </div>
               </div>
             </div>
