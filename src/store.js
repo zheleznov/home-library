@@ -27,5 +27,18 @@ export default new Vuex.Store({
           });
       });
     },
+
+    createAccount(context, userInfo) {
+      return new Promise((resolve, reject) => {
+        firebase.auth()
+          .createUserWithEmailAndPassword(userInfo.email, userInfo.password)
+          .then((userData) => {
+            resolve(userData);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
   },
 });
