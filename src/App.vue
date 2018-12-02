@@ -16,7 +16,7 @@ export default {
           sessionStorage.setItem('userId', user.uid);
         } else {
           // User is signed out.
-          this.$store.commit('saveUser', null);
+          this.$store.commit('removeUser');
           sessionStorage.removeItem('userId');
           console.log('Signt out');
           console.log(user);
