@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Registration from './views/Registration.vue';
 import Login from './views/Login.vue';
+import PageNotFound from './views/PageNotFound.vue';
 
 Vue.use(Router);
 
@@ -21,6 +22,11 @@ export default new Router({
     path: '/login',
     name: 'login',
     component: Login,
+  },
+  {
+    path: '*',
+    name: 'page-not-found',
+    component: PageNotFound,
   },
     /* {
       path: '/about',
