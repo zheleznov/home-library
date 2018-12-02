@@ -93,9 +93,9 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { required, email, minLength } from 'vuelidate/lib/validators';
-import TheModal from '../components/base/TheModal.vue';
-import TheInputError from '../components/base/TheInputError.vue';
-import TheSpinner from '../components/base/TheSpinner.vue';
+import TheModal from '../components/TheModal.vue';
+import TheInputError from '../components/TheInputError.vue';
+import TheSpinner from '../components/TheSpinner.vue';
 
 
 export default {
