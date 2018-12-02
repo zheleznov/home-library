@@ -82,9 +82,9 @@
 
 <script>
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
-import TheInputError from '../components/base/TheInputError.vue';
-import TheSpinner from '../components/base/TheSpinner.vue';
-import TheModal from '../components/base/TheModal.vue';
+import TheInputError from '../components/TheInputError.vue';
+import TheSpinner from '../components/TheSpinner.vue';
+import TheModal from '../components/TheModal.vue';
 
 // TODO: create and work users database with users info
 // TODO: create registration via social networks
