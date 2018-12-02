@@ -8,12 +8,17 @@ export default new Vuex.Store({
   state: {
     authUser: null,
   },
+
   mutations: {
     saveUser(state, user) {
       state.authUser = user;
     },
 
+    removeUser(state) {
+      state.authUser = null;
+    },
   },
+
   actions: {
     login(context, userInfo) {
       return new Promise((resolve, reject) => {
@@ -21,6 +26,19 @@ export default new Vuex.Store({
           .signInWithEmailAndPassword(userInfo.email, userInfo.password)
           .then((userData) => {
             resolve(userData);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
+    logout() {
+      return new Promise((resolve, reject) => {
+        firebase.auth()
+          .signOut()
+          .then((data) => {
+            resolve(data);
           })
           .catch((error) => {
             reject(error);
