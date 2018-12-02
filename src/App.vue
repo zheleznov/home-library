@@ -8,17 +8,20 @@ import 'firebase/auth';
 
 export default {
   beforeCreate() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in.
-        this.$store.commit('saveUser', user);
-        sessionStorage.setItem('userId', user.uid);
-        // ...
-      } else {
-        // User is signed out.
-        // ...
-      }
-    });
+    firebase.auth()
+      .onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in.
+          this.$store.commit('saveUser', user);
+          sessionStorage.setItem('userId', user.uid);
+        } else {
+          // User is signed out.
+          this.$store.commit('saveUser', null);
+          sessionStorage.removeItem('userId');
+          console.log('Signt out');
+          console.log(user);
+        }
+      });
   },
 };
 </script>
