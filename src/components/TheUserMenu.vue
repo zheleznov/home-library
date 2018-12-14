@@ -1,12 +1,12 @@
 <template>
   <div class="dropdown-menu dropdown-menu-right show">
-    <a class="dropdown-item" href="#">
+    <router-link class="dropdown-item" title="User Profile" :to="{name: 'user-profile'}">
       <i class="fa fa-user"></i> Profile
-    </a>
-    <a class="dropdown-item" href="#">
+    </router-link>
+    <!--<router-link class="dropdown-item" title="User Profile" :to="{name: 'user-profile'}">
       <i class="fa fa-wrench"></i> Settings
-    </a>
-    <a class="dropdown-item" href="#" @click="logout">
+    </router-link>-->
+    <a class="dropdown-item" href="#" @click="logout" title="Logout from Home Library">
       <i class="fa fa-lock"></i> Logout
     </a>
     <TheSpinner v-if="isLoading"/>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// TODO: settings
 import TheSpinner from '../components/TheSpinner.vue';
 
 export default {
@@ -26,16 +27,16 @@ export default {
   data() {
     return {
       isLoading: false,
+      userId: sessionStorage.getItem('userId'),
     };
   },
 
   methods: {
     logout() {
-      this.isLoading = true;
       this.$store.dispatch('logout')
         .then(() => {
+          sessionStorage.removeItem('uid');
           this.$router.push({ name: 'login' });
-          this.isLoading = false;
         });
     },
   },
