@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import firebase from 'firebase/app';
 import vuelidate from 'vuelidate';
 
 import App from './App.vue';
@@ -16,8 +15,6 @@ const config = {
   storageBucket: '',
   messagingSenderId: '255349747735',
 };
-
-firebase.initializeApp(config);
 
 Vue.use(vuelidate);
 
