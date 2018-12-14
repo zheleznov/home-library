@@ -1,8 +1,11 @@
 <template>
-  <div class="popover fade bs-popover-right show" role="tooltip">
+  <!--<div class="popover fade bs-popover-right show" role="tooltip">
     <div class="arrow"></div>
     <h3 class="popover-header"></h3>
     <div class="popover-body"><slot></slot></div>
+  </div>-->
+  <div class="invalid-feedback">
+    <slot></slot>
   </div>
 </template>
 
@@ -11,11 +14,11 @@ export default {
   name: 'TheInputError',
 
   mounted() {
-    this.setPosition();
+    // this.setPosition();
   },
 
   updated() {
-    this.setPosition();
+    // this.setPosition();
   },
 
   methods: {
@@ -32,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-  .popover {
+  /* .popover {
     left: unset;
     right: 0;
   }
@@ -43,5 +46,8 @@ export default {
 
   .popover-body p {
     margin: 0;
+  } */
+  .invalid-feedback p {
+    margin-bottom: 0;
   }
 </style>
