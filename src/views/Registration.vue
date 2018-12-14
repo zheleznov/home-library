@@ -165,7 +165,7 @@ export default {
     modalClose() {
       this.modalData = null;
       if (this.userCreated) {
-        this.$router.push('/');
+        this.$router.push({ name: 'home' });
       }
     },
   },
