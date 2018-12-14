@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Registration from './views/Registration.vue';
 import Login from './views/Login.vue';
 import PageNotFound from './views/PageNotFound.vue';
+import UserProfile from './views/UserProfile.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
     path: '/login',
     name: 'login',
     component: Login,
+  },
+  {
+    path: '/user-profile',
+    name: 'user-profile',
+    component: UserProfile,
   },
   {
     path: '*',
