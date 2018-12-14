@@ -3,24 +3,18 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
 export default {
   beforeCreate() {
-    firebase.auth()
-      .onAuthStateChanged((user) => {
-        if (user) {
-          // User is signed in.
-          this.$store.commit('saveUser', user);
-          sessionStorage.setItem('userId', user.uid);
-        } else {
-          // User is signed out.
-          this.$store.commit('removeUser');
-          sessionStorage.removeItem('userId');
-          console.log('Signt out');
-          console.log(user);
-        }
+    if (!sessionStorage.getItem('uid') && this.$route.name !== 'login') {
+      this.$router.push({ name: 'login' });
+    }
+
+    this.$store.dispatch('onAuthStateChanged')
+      .then((uid) => {
+        sessionStorage.setItem('uid', uid);
+      })
+      .catch(() => {
+        sessionStorage.removeItem('uid');
       });
   },
 };
