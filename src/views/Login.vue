@@ -136,9 +136,10 @@ export default {
     loginClick() {
       this.isLoading = true;
       this.$store.dispatch('login', this.userInfo)
-        .then(() => {
+        .then((uid) => {
           this.isLoading = false;
-          this.$router.push('/');
+          sessionStorage.setItem('uid', uid);
+          this.$router.push({ name: 'home' });
         })
         .catch((error) => {
           this.isLoading = false;
