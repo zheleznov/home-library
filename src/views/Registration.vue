@@ -82,9 +82,11 @@
 
 <script>
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 import TheInputError from '../components/TheInputError.vue';
 import TheSpinner from '../components/TheSpinner.vue';
 import TheModal from '../components/TheModal.vue';
+import modalMessages from '../helpers/modalMessages';
 
 // TODO: create and work users database with users info
 // TODO: create registration via social networks
@@ -112,12 +114,6 @@ export default {
     };
   },
 
-  computed: {
-    isSamePassword() {
-      return this.userInfo.password === this.userInfo.repeatPassword;
-    },
-  },
-
   validations: {
     userInfo: {
       displayName: {
@@ -139,26 +135,22 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      createUserAccount: 'users/createAccount',
+    }),
+
     createAccount() {
       this.isLoading = true;
 
-      this.$store.dispatch('createAccount', this.userInfo)
+      this.createUserAccount(this.userInfo)
         .then((data) => {
-          console.log(data);
           this.isLoading = false;
-          this.modalData = {};
-          this.modalData.title = 'Registration complete!';
-          this.modalData.message = `Congratulations! New user with email ${data.user.email} has been create. You will be redirected to Home page`;
-          this.modalData.type = 'modal-success';
+          this.modalData = modalMessages.completeRegistration;
           this.userCreated = true;
         })
         .catch((error) => {
-          console.log(error);
           this.isLoading = false;
-          this.modalData = {};
-          this.modalData.title = error.code;
-          this.modalData.message = error.message;
-          this.modalData.type = 'modal-danger';
+          this.modalData = modalMessages.getErrorMessage(error);
         });
     },
 
