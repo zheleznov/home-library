@@ -19,6 +19,11 @@ const messages = {
     message: 'Congratulations! New user has been create. You will be redirected to Home page',
     type: 'modal-success',
   },
+  passwordReset: {
+    title: 'Password reset',
+    message: 'Email to recover your password was sent',
+    type: 'modal-success',
+  },
   getErrorMessage({ code, message }) {
     return {
       title: code,
