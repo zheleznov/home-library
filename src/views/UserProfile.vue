@@ -44,9 +44,9 @@
             </div>
           </div>
           <div class="card-footer">
-            <button class="btn btn-sm btn-primary" type="submit" @click="updateUserProfile">
+            <button class="btn btn-primary" type="submit" @click="updateUserProfile">
               <i class="fa fa-dot-circle-o"></i> Save</button>
-            <button class="btn btn-sm btn-danger" type="reset" @click="cancel">
+            <button class="btn btn-danger" type="reset" @click="cancel">
               <i class="fa fa-ban"></i> Cancel</button>
           </div>
         </div>
@@ -60,8 +60,11 @@
 <script>
 /* eslint-disable no-trailing-spaces */
 // TODO: cases with fail during update, what to do. to think
+import { mapActions } from 'vuex';
 import TheSpinner from '../components/TheSpinner.vue';
 import TheModal from '../components/TheModal.vue';
+import modalMessages from '../helpers/modalMessages';
+
 
 export default {
   name: 'UserAccount',
@@ -81,11 +84,18 @@ export default {
 
   computed: {
     user() {
-      return this.$store.state.authUser;
+      return this.$store.state.users.authUser;
     },
   },
 
   methods: {
+    ...mapActions({
+      updateUserName: 'users/updateUserName',
+      updateUserEmail: 'users/updateUserEmail',
+      updateUserPassword: 'users/updateUserPassword',
+      saveUserAvatar: 'users/saveUserAvatar',
+    }),
+
     cancel() {
       this.$router.push({ name: 'home' });
     },
@@ -100,33 +110,26 @@ export default {
 
       try {
         if (this.user.displayName !== name) {
-          await this.$store.dispatch('updateUserName', name);
+          await this.updateUserName(name);
         }
 
         if (this.user.email !== email) {
-          await this.$store.dispatch('updateUserEmail', email);
+          await this.updateUserEmail(email);
         }
 
         if (password !== '') {
-          await this.$store.dispatch('updateUserPassword', password);
+          await this.updateUserPassword(password);
         }
 
         if (file.length) {
-          await this.$store.dispatch('saveUserAvatar', file[0]);
+          await this.updateUserAvatar(file[0]);
         }
 
-        this.modalData = {};
-        this.modalData.title = 'Account has been updated';
-        this.modalData.message = 'New user info was successfully saved. You will be redirected to main page';
-        this.modalData.type = 'modal-success';
+        this.modalData = modalMessages.accountUpdated;
         this.isLoading = false;
         this.isUserDataUpdated = true;
       } catch (error) {
-        this.modalData = {};
-        this.modalData.title = error.code;
-        this.modalData.message = error.message;
-        this.modalData.type = 'modal-danger';
-        console.log(error);
+        this.modalData = modalMessages.getErrorMessage(error);
       }
     },
 
