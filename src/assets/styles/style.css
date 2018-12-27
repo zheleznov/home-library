@@ -12679,7 +12679,7 @@ app-root {
 }
 
 html:not([dir="rtl"]) .sidebar {
-  margin-left: -200px;
+  margin-left: -220px;
 }
 
 html:not([dir="rtl"]) .aside-menu {
