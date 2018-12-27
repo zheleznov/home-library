@@ -93,9 +93,11 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { required, email, minLength } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 import TheModal from '../components/TheModal.vue';
 import TheInputError from '../components/TheInputError.vue';
 import TheSpinner from '../components/TheSpinner.vue';
+import modalMessages from '../helpers/modalMessages';
 
 
 export default {
@@ -133,9 +135,13 @@ export default {
   },
 
   methods: {
+    ...mapActions('users', [
+      'login',
+    ]),
+
     loginClick() {
       this.isLoading = true;
-      this.$store.dispatch('login', this.userInfo)
+      this.login(this.userInfo)
         .then((uid) => {
           this.isLoading = false;
           sessionStorage.setItem('uid', uid);
@@ -143,10 +149,7 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
-          this.modalData = {};
-          this.modalData.title = error.code;
-          this.modalData.message = error.message;
-          this.modalData.type = 'modal-danger';
+          this.modalData = modalMessages.getErrorMessage(error);
         });
     },
 
@@ -159,17 +162,11 @@ export default {
       firebase.auth().sendPasswordResetEmail(this.userInfo.email).then(() => {
         // Email sent.
         this.isLoading = false;
-        this.modalData = {};
-        this.modalData.title = 'Password reset';
-        this.modalData.message = 'Email to recover your password was sent';
-        this.modalData.type = 'modal-success';
+        this.modalData = modalMessages.passwordReset;
       }).catch((error) => {
         // An error happened.
         this.isLoading = false;
-        this.modalData = {};
-        this.modalData.title = error.code;
-        this.modalData.message = error.message;
-        this.modalData.type = 'modal-danger';
+        this.modalData = modalMessages.getErrorMessage(error);
       });
     },
   },

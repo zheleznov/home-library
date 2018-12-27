@@ -5,14 +5,23 @@ import Registration from './views/Registration.vue';
 import Login from './views/Login.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import UserProfile from './views/UserProfile.vue';
+import BookEditor from './components/TheBookEditor.vue';
+import AllBooks from './components/TheAllBooks.vue';
+
+import store from './store';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [{
     path: '/',
     name: 'home',
     component: Home,
+    children: [
+      { path: 'library/add-book', name: 'add-book', component: BookEditor },
+      { path: 'library/all-books', name: 'all-books', component: AllBooks },
+      { path: 'library/book-details/:id', name: 'book-details', props: { id: true }, component: BookEditor },
+    ],
   },
   {
     path: '/registration',
@@ -44,4 +53,11 @@ export default new Router({
 }, */
   ],
   mode: 'history',
+  linkExactActiveClass: 'active',
 });
+
+router.afterEach((to) => {
+  store.commit('users/savePathInfo', to.path);
+});
+
+export default router;

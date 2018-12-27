@@ -7,7 +7,7 @@
       <img class="navbar-brand-full" src="../assets/images/bookshelf.png" alt="Home Library">
       <span>Home Library</span>
     </router-link>
-    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show" @click="toggleSidebar">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -40,7 +40,13 @@ export default {
 
   computed: {
     user() {
-      return this.$store.state.authUser;
+      return this.$store.state.users.authUser;
+    },
+  },
+
+  methods: {
+    toggleSidebar() {
+      document.body.classList.toggle('sidebar-lg-show');
     },
   },
 };
